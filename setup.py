@@ -9,5 +9,5 @@ setup(name = 'Nokaut',
       packages = ['nokaut','tests'],
       install_requires = ['lxml','mock','argparse'],
       test_suite='tests',
-      entry_points = {'console_scripts': ['main = lib.scripts:main']}
+      entry_points = {'console_scripts': ['main = nokaut.scripts:main']}
 )

@@ -350,13 +350,15 @@ http://nokautimg3.pl/p-63-71-6371c85c869968787a6df3d006c18284130x130/4m-twoja-ra
 '''
 
 #keyword = 'a'
-NOKAUT_NO_ITEM_RESPONSE = '''/<success>
+NOKAUT_NO_ITEM_RESPONSE = '''\
+<success>
 <items></items>
 <total>0</total>
 </success>'''
 
 #key = 1
-NOKAUT_WRONG_KEY_RESPONSE = '''/<fail>
+NOKAUT_WRONG_KEY_RESPONSE = '''\
+<fail>
 <code>101</code>
 <message>Invalid API Key</message>
 </fail>'''

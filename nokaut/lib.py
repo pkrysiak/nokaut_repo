@@ -10,6 +10,14 @@ class WrongKeyException(Exception):
     def __str__(self):
             return repr(self.str)
 
+class WrongPhraseException(Exception):
+
+    def __init__(self,msg=''):
+            self.msg = msg
+
+    def __str__(self):
+           return repr(self.msg)
+
 class NoKeyException(Exception):
 
     def __init__(self,msg=''):
@@ -48,16 +56,22 @@ def nokaut_api(p_name, key):
 
     try:
         response = urllib2.urlopen(question)
+        # print 'respo-------',type(response)
     except IOError:
         raise NoConnectionException('No internet connection.')
 
-    context = etree.parse(response)
+    context = etree.fromstring(response.read())
+
+    if context.tag == 'fail':
+        raise WrongKeyException('Wrong key, Can\'t get results...')
+
     url_list = context.xpath('//url//text()')
     min_prices = context.xpath('//price_min//text()')
 
-    if not url_list:
-        raise WrongKeyException('Wrong key, Can\'t get results...')
+    if not min_prices:
+        raise WrongPhraseException('Wrong phrase exception, Can\'t get results...')
 
-    return url_list[0], min_prices[0]
+    return url_list[0].strip('\n'), min_prices[0].strip('\n')
 
-# print nokaut_api('rakieta kosmiczna', 'a8839b1180ea00fa1cf7c6b74ca01bb5')
+# print nokaut_api('a', 'a8839b1180ea00fa1cf7c6b74ca01bb5')
+# print nokaut_api('laptop', 'a')
