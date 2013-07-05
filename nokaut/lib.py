@@ -28,11 +28,11 @@ class NoConnectionException(Exception):
 
 def nokaut_api(p_name, key):
     '''function that takes product name and personal key, searches this phrase in
-    nokaut.pl and returns product with the lowest possible price.
+    nokaut.pl and returns (url, price) of product with the lowest possible price.
     Raises NoKeyException if no key specified, NoConnectionException if no
     internet connection found, and WrongKeyException if wrong key specified.
     input: p_name - string, key - string
-    output: tuple (product name - string, price - string)'''
+    output: tuple (product url - string, price - string)'''
 
     if key == '':
         raise NoKeyException('No key specified.')
@@ -45,7 +45,6 @@ def nokaut_api(p_name, key):
 
     data = urllib.urlencode(url_data)
     question = '?'.join([url,data])
-    print question
 
     try:
         response = urllib2.urlopen(question)
@@ -53,11 +52,12 @@ def nokaut_api(p_name, key):
         raise NoConnectionException('No internet connection.')
 
     context = etree.parse(response)
-    product_list = context.xpath('//name//text()')
+    url_list = context.xpath('//url//text()')
     min_prices = context.xpath('//price_min//text()')
 
-    if not product_list:
+    if not url_list:
         raise WrongKeyException('Wrong key, Can\'t get results...')
 
-    return product_list[0], min_prices[0]
+    return url_list[0], min_prices[0]
 
+# print nokaut_api('3310', 'a8839b1180ea00fa1cf7c6b74ca01bb5')

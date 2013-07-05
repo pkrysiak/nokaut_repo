@@ -1,34 +1,43 @@
-import unittest
-import sys
-sys.path.append('../nokaut')
-import lib
+# -*- coding: UTF-8 -*-
 
+import unittest,urllib2,StringIO
+from mock import patch
+from nokaut import lib
+
+# item = wóda
 NOKAUT_RESPONSE = """\
-mama
 """
+# item = 'a'
+NOKAUT_NO_ITEM_RESPONSE = '''/<success>
+<items></items>
+<total>0</total>
+</success>'''
 
-NOKAUT_NO_ITEM_RESPONSE = ''
-
-
-NOKAUT_WRONG_KEY_RESPONSE = ''
+#  key = 1
+NOKAUT_WRONG_KEY_RESPONSE = '''/<fail>
+<code>101</code>
+<message>Invalid API Key</message>
+</fail>'''
 
 
 class NokautExceptionsTest(unittest.TestCase):
 
-    def __init__(self):
+    def setUp(self):
+        self.nokaut_key = 'a8839b1180ea00fa1cf7c6b74ca01bb5'
         self.nokaut = None
 
     def tearDown(self):
+        self.nokaut_key = None
         self.nokaut = None
 
-    def wrong_key_exception_test(self):
+    def test_success(self):
         pass
 
-    def no_connection_exception_test(self):
+    def test_no_connection_exception(self):
         pass
 
-    def no_key_exception_test(self):
+    def test_no_key_exception(self):
         pass
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
