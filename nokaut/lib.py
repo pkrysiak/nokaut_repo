@@ -1,7 +1,6 @@
 import urllib,urllib2
 from lxml import etree
 
-
 class WrongKeyException(Exception):
 
     def __init__(self,msg=''):
@@ -73,5 +72,3 @@ def nokaut_api(p_name, key):
 
     return url_list[0].strip('\n'), min_prices[0].strip('\n')
 
-# print nokaut_api('a', 'a8839b1180ea00fa1cf7c6b74ca01bb5')
-# print nokaut_api('laptop', 'a')

@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import unittest,urllib2
-from mock import patch
+from mock import patch,MagicMock
 from responses import *
 from nokaut import lib
 from StringIO import StringIO
@@ -38,8 +38,3 @@ class NokautExceptionsTest(unittest.TestCase):
 
     def test_no_key_exception(self):
         self.assertRaises(lib.NoKeyException, lib.nokaut_api, 'rakieta kosmiczna', '')
-
-    # @patch('nokaut.lib.urllib2')
-    # def test_no_connection_exception(self, urllib2):
-    #     urllib2.urlopen().read.return_value = IOError()
-    #     self.assertRaises(lib.NoConnectionException, lib.nokaut_api, 'rakieta kosmiczna', self.nokaut_key)
