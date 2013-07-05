@@ -1,33 +1,67 @@
-import urllib
+import urllib,urllib2
 from lxml import etree
 
 
 class WrongKeyException(Exception):
 
-        def __init__(self,str):
-            self.str = str
+    def __init__(self,msg=''):
+        self.msg = msg
 
-        def __str__(self):
-                return repr(self.str)
+    def __str__(self):
+            return repr(self.str)
 
 class NoKeyException(Exception):
-    pass
+
+    def __init__(self,msg=''):
+            self.msg = msg
+
+    def __str__(self):
+           return repr(self.msg)
 
 class NoConnectionException(Exception):
-    pass
 
+    def __init__(self,msg=''):
+        self.msg = msg
+
+    def __str__(self):
+            return repr(self.msg)
 
 def nokaut_api(p_name, key):
-    question = 'http://api.nokaut.pl/?format=xml&key='+key+'&method=nokaut.product.getByKeyword&keyword='+p_name
-    response = urllib.URLopener().open(question)
+    '''function that takes product name and personal key, searches this phrase in
+    nokaut.pl and returns product with the lowest possible price.
+    Raises NoKeyException if no key specified, NoConnectionException if no
+    internet connection found, and WrongKeyException if wrong key specified.
+    input: p_name - string, key - string
+    output: tuple (product name - string, price - string)'''
+
+    if key == '':
+        raise NoKeyException('No key specified.')
+
+    url = 'http://api.nokaut.pl/'
+    url_data = {'keyword' : p_name,
+                'method' : 'nokaut.product.getByKeyword',
+                'key' : key,
+                'format' : 'xml'}
+
+    data = urllib.urlencode(url_data)
+    question = '?'.join([url,data])
+    print question
+
+    try:
+        response = urllib2.urlopen(question)
+    except IOError:
+        raise NoConnectionException('No internet connection.')
+
     context = etree.parse(response)
     product_list = context.xpath('//name//text()')
     min_prices = context.xpath('//price_min//text()')
-    # print (product_list,min_prices)
     if not product_list:
         raise WrongKeyException('Wrong key, Can\'t get results...')
     return product_list[0], min_prices[0]
 
-
 # print nokaut_api('3310', 'a8839b1180ea00fa1cf7c6b74ca01bb5')
 # print nokaut_api('3310', '12')
+# print nokaut_api('3310','')
+# print nokaut_api('3310', 2)
+# print nokaut_api('3310', [])
+# print nokaut_api('3310', {})
