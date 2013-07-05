@@ -55,7 +55,9 @@ def nokaut_api(p_name, key):
     context = etree.parse(response)
     product_list = context.xpath('//name//text()')
     min_prices = context.xpath('//price_min//text()')
+
     if not product_list:
         raise WrongKeyException('Wrong key, Can\'t get results...')
+
     return product_list[0], min_prices[0]
 
