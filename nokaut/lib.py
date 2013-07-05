@@ -60,4 +60,4 @@ def nokaut_api(p_name, key):
 
     return url_list[0], min_prices[0]
 
-# print nokaut_api('3310', 'a8839b1180ea00fa1cf7c6b74ca01bb5')
+# print nokaut_api('rakieta kosmiczna', 'a8839b1180ea00fa1cf7c6b74ca01bb5')
