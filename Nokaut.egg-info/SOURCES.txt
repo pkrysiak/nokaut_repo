@@ -9,4 +9,5 @@ nokaut/__init__.py
 nokaut/lib.py
 nokaut/scripts.py
 tests/__init__.py
+tests/responses.py
 tests/test.py
