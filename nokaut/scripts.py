@@ -1,6 +1,6 @@
 # -*- coding:UTF-8 -*-
 
-import getopt,sys,lib,argparse
+import sys,lib,argparse
 from lib import WrongKeyException
 
 parser = argparse.ArgumentParser(description='Nokaut lowest price getter.')
@@ -14,7 +14,7 @@ def parse1_args():
     return vars(parser.parse_args()) #make dict out of Namespace object
 
 def main():
-    # function that do the job
+    # function that does the job
     arg, key= parse1_args()['arg'], parse1_args()['k']
     try:
         res = lib.nokaut_api(arg,key)
@@ -23,4 +23,4 @@ def main():
         sys.exit('Wrong key specified, can\'t get results')
 
 
-# main()
+main()
