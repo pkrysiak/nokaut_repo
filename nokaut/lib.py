@@ -1,37 +1,17 @@
-import urllib,urllib2
+import urllib,urllib2,ast
 from lxml import etree
 
 class WrongKeyException(Exception):
+    pass
 
-    def __init__(self,msg=''):
-        self.msg = msg
-
-    def __str__(self):
-            return repr(self.str)
-
-class WrongPhraseException(Exception):
-
-    def __init__(self,msg=''):
-            self.msg = msg
-
-    def __str__(self):
-           return repr(self.msg)
+class NoItemException(Exception):
+    pass
 
 class NoKeyException(Exception):
-
-    def __init__(self,msg=''):
-            self.msg = msg
-
-    def __str__(self):
-           return repr(self.msg)
+    pass
 
 class NoConnectionException(Exception):
-
-    def __init__(self,msg=''):
-        self.msg = msg
-
-    def __str__(self):
-            return repr(self.msg)
+    pass
 
 def nokaut_api(p_name, key):
     '''function that takes product name and personal key, searches this phrase in
@@ -39,7 +19,7 @@ def nokaut_api(p_name, key):
     Raises NoKeyException if no key specified, NoConnectionException if no
     internet connection found, and WrongKeyException if wrong key specified.
     input: p_name - string, key - string
-    output: tuple (product url - string, price - string)'''
+    output: tuple (product url - string, price - float)'''
 
     if key == '':
         raise NoKeyException('No key specified.')
@@ -68,7 +48,8 @@ def nokaut_api(p_name, key):
     min_prices = context.xpath('//price_min//text()')
 
     if not min_prices:
-        raise WrongPhraseException('Wrong phrase exception, Can\'t get results...')
+        raise NoItemException('No items found..')
 
-    return url_list[0].strip('\n'), min_prices[0].strip('\n')
+    url, price = url_list[0].strip(), float(min_prices[0].__str__().replace(',','.'))
 
+    return url, price

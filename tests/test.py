@@ -15,16 +15,16 @@ class NokautExceptionsTest(unittest.TestCase):
         self.nokaut_key = None
 
     @patch('nokaut.lib.urllib2')
-    def test_success_1(self, urllib2):
+    def test_success_price(self, urllib2):
         urllib2.urlopen().read.return_value = NOKAUT_CORRECT_RESPONSE
         url, _ = lib.nokaut_api('rakieta kosmiczna', self.nokaut_key)
         self.assertEqual(url, 'http://www.nokaut.pl/zabawki-kreatywne/zrob-to-sam-rakieta-kosmiczna-4m-3235.html')
 
     @patch('nokaut.lib.urllib2')
-    def test_success_2(self, urllib2):
+    def test_success_url(self, urllib2):
         urllib2.urlopen().read.return_value = NOKAUT_CORRECT_RESPONSE
         _, price = lib.nokaut_api('rakieta kosmiczna', self.nokaut_key)
-        self.assertEqual(price, '29,00')
+        self.assertEqual(price, 29.00)
 
     @patch('nokaut.lib.urllib2')
     def test_wrong_key_exception(self, urllib2):
@@ -34,7 +34,7 @@ class NokautExceptionsTest(unittest.TestCase):
     @patch('nokaut.lib.urllib2')
     def test_wrong_phrase_exception(self,  urllib2):
         urllib2.urlopen().read.return_value = NOKAUT_NO_ITEM_RESPONSE
-        self.assertRaises(lib.WrongPhraseException, lib.nokaut_api, 'a', self.nokaut_key)
+        self.assertRaises(lib.NoItemException, lib.nokaut_api, 'a', self.nokaut_key)
 
     def test_no_key_exception(self):
         self.assertRaises(lib.NoKeyException, lib.nokaut_api, 'rakieta kosmiczna', '')
