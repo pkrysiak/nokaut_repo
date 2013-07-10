@@ -22,6 +22,3 @@ def main():
         print ''.join(['Najtańszy przedmiot: ', url, ' Cena: ', str(price)])
     except WrongKeyException:
         sys.exit('Wrong key specified, can\'t get results')
-
-
-main()

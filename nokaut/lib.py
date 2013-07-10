@@ -35,7 +35,6 @@ def nokaut_api(p_name, key):
 
     try:
         response = urllib2.urlopen(question)
-        # print 'respo-------',type(response)
     except IOError:
         raise NoConnectionException('No internet connection.')
 
