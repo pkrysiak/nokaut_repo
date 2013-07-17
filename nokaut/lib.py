@@ -13,7 +13,7 @@ class NoKeyException(Exception):
 class NoConnectionException(Exception):
     pass
 
-def nokaut_api(p_name, key):
+def nokaut_api(p_name, key, pic = False):
     '''function that takes product name and personal key, searches this phrase in
     nokaut.pl and returns (url, price) of product with the lowest possible price.
     Raises NoKeyException if no key specified, NoConnectionException if no
@@ -45,10 +45,13 @@ def nokaut_api(p_name, key):
 
     url_list = context.xpath('//url//text()')
     min_prices = context.xpath('//price_min//text()')
+    picture_list = context.xpath('//image_large/text()')
 
     if not min_prices:
         raise NoItemException('No items found..')
 
     url, price = url_list[0].strip(), float(min_prices[0].__str__().replace(',','.'))
-
-    return url, price
+    if pic :
+        return url, price, picture_list[0]
+    else:
+        return url, price
